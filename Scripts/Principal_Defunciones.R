@@ -48,8 +48,6 @@ Grupo <- Grupo %>%#Sin edad
   filter(! edad %in% DataSinEdad$edad) %>% 
   group_by(cant_fall)
 
-Edad3 <- Grupo$edad ## Solo la edad
-
 colnames(Grupo)
 
 #Tablas
@@ -59,25 +57,31 @@ tablaCanton=table(Grupo$cant_fall)
 tablaCanton #Ocurrencia de defunciones por canton
 tablaSexo=table(Grupo$sexo)
 tablaSexo
-
+tablaSexoCanton = table(Grupo$cant_fall, Grupo$sexo)
 
 #Diagrama de barras
   #Freq de defunciones por edad
-barplot(TabEdad3, main="Freq. defunciones por edad" , xlab="Edad")
-  #Histogram
-#Por edad
-hist(Grupo$edad, breaks = "Sturges", right = T, main = "Histogram de defunciones por Edad",
-     xlab = "Edad") #Usamos la regla de Sturges para las clases
-tablaFreq=table.freq(hist(Grupo$edad, breaks = "Sturges", right = T))
-tablaFreq
-#Por canton
+barplot(TabEdad3, main="Diagrama de barras: Frecuencia de defunciones 
+        por edad en el Guayas" , xlab="Edad")
+  #Por canton
 barplot(tablaCanton, main="Freq. defunciones por Canton" , xlab="Sexo")
 MaxDefCanton = mlv(Grupo$cant_fall , method = "mfv") #Canton con Maxima de fallecidos
 tablaCanton[MaxDefCanton] #Canton con Maxima de fallecidos
-#Por Sexo
-barplot(tablaSexo, main="Freq. defunciones por Sexo en el Guayas" , xlab="Sexo")
+sort(tablaCanton)
+SegMaxDef = "Daule"
+tablaCanton[SegMaxDef]
+  #Por Sexo
+barplot(tablaSexo, main="Diagrama de barras: Frecuencia de defunciones 
+        por Sexo en el Guayas" , xlab="Sexo", col=c("lightblue", "pink"))
 
-  #Frecuencias relativas
+#Histogram
+  #Por edad
+hist(Grupo$edad, breaks = "Sturges", right = T, main = "Histograma de defunciones por Edad",
+     xlab = "Edad", plot = F) #Usamos la regla de Sturges para las clases
+tablaFreq=table.freq(hist(Grupo$edad, breaks = "Sturges", right = T))
+tablaFreq
+
+#Frecuencias relativas
 tablaReltv3 <- fdt(Grupo$edad, breaks = "Sturges")
 tablaReltv3
   #Densidad
@@ -89,10 +93,31 @@ abline(v=mean(Grupo$edad), lwd=2, lty=3, col="darkblue")
 tablaFreq
 plot(tablaFreq$Main, cumsum(tablaFreq$Frequency), main="Ojiva de frecuencia dist", 
      xlab = "Marca de clase", ylab = "Frecuencia absoluta")
-lines(tablaFreq$Main,cumsum(tablaFreq$Frequency), type="l")
+
+##Diagrama de Cajas, se puede observar valores atípicos en relación a los recien nacidos
+boxplot(Grupo$edad, horizontal = TRUE, main="Diagrama de Caja de Defunciones por
+        edad", xlab = "Edad", col="lightblue")
+
+
   #Diagrama de Cajas(Edad por sexo)
 boxplot(Grupo$edad ~ Grupo$sexo, horizontal = T, main="Diagrama de Cajas Defunciones por edad
         y sexo", xlab = "Edad", ylab = "Sexo", col=c("lightblue", "pink"))
+
+  #Diagrama de Cajas(Cantones con mas defunciones)
+dataDauMil <- subset(Grupo, cant_fall == "Milagro" | cant_fall == "Daule", )
+dataDauMil
+boxplot(dataDauMil$edad ~ dataDauMil$cant_fall, horizontal = T, main="Diagrama de Cajas Defunciones
+        en Daule y Milagro", xlab = "Edad", ylab = "Canton", col=c("lightblue", "grey"))
+
+dataDauMil%>%  
+  filter(cant_fall=="Milagro")-> Milagro  #A) Grupo de fallecidos en milagro
+
+mean(Milagro$edad)
+
+dataDauMil%>%  
+  filter(cant_fall=="Daule")-> Daule  #A) Grupo de fallecidos en Daule
+
+mean(Daule$edad)
 
 #Medidas de tendencia central y dispersión
 mediaEdad <- mean(Grupo$edad)
@@ -128,6 +153,7 @@ plot(tablaReltv3, type="rfh") #histograma de frecuencias relativa
 
 
 ###Grupo de edades: 13
+##Para este analisis solo se escogerán tres grupos de edades.
 
 ##Grupo de edad 1: Hombres y mujeres fallecidoss menores de 10 años(Niños)
 #Fallecimiento por Canton sin Guayaquil
@@ -170,8 +196,6 @@ tablaMasc=table(Grupo1$sexo, exclude = c("Mujer")) #tabla solo Masculino
 tablaMasc
 tablaCanton=table(Grupo1$cant_fall)
 tablaCanton
-tablaSexoCanton = table(Grupo$edad, Grupo$sexo)
-tablaSexoCanton
 
 
 #Diagrama de barras
