@@ -79,7 +79,7 @@ SegMaxDef = "Daule"
 tablaCanton[SegMaxDef]
   #Por Sexo
 barplot(tablaSexo, main="Diagrama de barras: Frecuencia de defunciones 
-        por Sexo en el Guayas" , xlab="Sexo", col=c("lightblue", "pink"))
+        por Sexo en el Guayas a excepcion de Guayaquil" , xlab="Sexo", col=c("lightblue", "pink"))
 
 #Histogram
   #Por edad
@@ -437,7 +437,7 @@ tablaFreq2
 tablaReltv32 <- fdt(Grupo2$edad, breaks = "Sturges", right = F)
 tablaReltv32
 #Densidad
-hist(Grupo2$edad, breaks = "Sturges",  main = "Histogram de defunciones por Edad grupo 1", freq = FALSE)
+hist(Grupo2$edad, breaks = "Sturges",  main = "Histogram de defunciones por Edad grupo 2", freq = FALSE)
 lines(density(Grupo2$edad), col="blue", lwd=3) # dibujamos la distribuci?n normal emp?rica con los datos que tenemos
 lines(density(Grupo2$edad, adjust=2), col="red", lwd=3, lty=2) #suavizar la curva con adjust entre 1 a 5
 abline(v=mean(Grupo2$edad), lwd=2, lty=3, col="darkblue") 
@@ -448,7 +448,7 @@ plot(tablaFreq2$Main, cumsum(tablaFreq2$Frequency), main="Ojiva de frecuencia ac
      xlab = "Marca de clase", ylab = "Frecuencia absoluta")
 lines(tablaFreq2$Main,cumsum(tablaFreq2$Frequency), type="l")
 
-##Diagrama de Cajas, se puede observar valores atípicos en relación a los recien nacidos
+##Diagrama de Cajas: Defunciones por edad
 boxplot(Grupo2$edad, horizontal = TRUE, main="Diagrama de Caja de Defunciones por
         edad", xlab = "Edad", col="lightblue")
 
@@ -544,22 +544,24 @@ MediaEdaSexcM2 <-(MediaEdaSexc2 %>%
 MediaEdaSexcM2
 #La edad más frecuente de muertes Femeninas en Guayas sin Guayaquil
 v_logico = tablaEdaSexF2==max(tablaEdaSexF2) #Variable temporal
+v_logico
 which(v_logico==TRUE)
 ModadEdaSexF2 <- 77
 ModadEdaSexF2
 #La edad más frecuente de muertes Masculinas en Guayas sin Guayaquil
 v_logico = tablaEdaSexM2==max(tablaEdaSexM2) #Variable temporal
+v_logico
 ModadEdaSexM2 <- 77
 ModadEdaSexM2
 
 
 ###Grupo de edades: 80 a 100 años - Grupo3
 
-##Grupo de edad 1: Hombres y mujeres fallecidoss entre 60 y 80 años(Adultos mayores)
+##Grupo de edad 3: Hombres y mujeres fallecidoss entre 60 y 80 años(Adultos mayores)
 #Fallecimiento por Canton sin Guayaquil
 Grupo3 <- data %>%#Sin Guayaquil
   filter(! cant_fall %in% DataGquil$cant_fall,
-         between(edad,60,80)) %>% 
+         between(edad,80,100)) %>% 
   group_by(cant_fall) 
 
 Grupo3
@@ -583,145 +585,146 @@ tablaEdaSexF3 = table(Grupo3$edad, Grupo3$sexo, exclude = c("Hombre"))
 #Diagrama de barras2
 #Freq de defunciones por edad
 barplot(TabEdad33, main="Diagrama de barras: Frecuencia de defunciones 
-        por edad en el Guayas" , xlab="Edad")
+        por edad en el Guayas Gruo 3" , xlab="Edad")
 #Por canton
-barplot(tablaCanton3, main="Freq. defunciones por Canton grupo 3" , xlab="Sexo")
-MaxDefCanton2 = mlv(Grupo1$cant_fall , method = "mfv") #Canton con Maxima de fallecidos
-MaxDefCanton2
-tablaCanton1[MaxDefCanton2] #Canton con Maxima de fallecidos
-sort(tablaCanton2)
+barplot(tablaCanton3, main="Freq. defunciones por Canton grupo 3" , xlab="Canton")
+MaxDefCanton3 = mlv(Grupo3$cant_fall , method = "mfv") #Canton con Maxima de fallecidos
+MaxDefCanton3
+tablaCanton3[MaxDefCanton3] #Canton con Maxima de fallecidos
+sort(tablaCanton3)
 #SegMaxDef2 = "Daule"
 #tablaCanton2[SegMaxDef1] #Me muestra el segundo canton con mas fallecidos
 #Por Sexo
-barplot(tablaSexo2, main="Freq de muertes por Sexo: 60 - 80 años en el Guayas" , xlab="Sexo", col=c("lightblue", "pink"))
+barplot(tablaSexo3, main="Freq de muertes por Sexo: 80 - 100 años en el Guayas" , xlab="Sexo", col=c("lightblue", "pink"))
 
 #Histogram
 #Por edad
-hist(Grupo2$edad, breaks = "Sturges", right = T, main = "Histograma de defunciones Edad grupo 2",
+hist(Grupo3$edad, breaks = "Sturges", right = T, main = "Histograma de defunciones Edad grupo 3",
      xlab = "Edad") #Usamos la regla de Sturges para las clases
-histEdad2 = hist(Grupo2$edad, breaks = "Sturges", right = T, plot = F)
-histEdad2
-tablaFreq2=table.freq(hist(Grupo2$edad, breaks = "Sturges", right = T))
-tablaFreq2
+histEdad3 = hist(Grupo3$edad, breaks = "Sturges", right = T, plot = F)
+histEdad3
+tablaFreq3=table.freq(hist(Grupo3$edad, breaks = "Sturges", right = T))
+tablaFreq3
 
 #Frecuencias relativas
-tablaReltv32 <- fdt(Grupo2$edad, breaks = "Sturges", right = F)
-tablaReltv32
+tablaReltv33 <- fdt(Grupo3$edad, breaks = "Sturges", right = F)
+tablaReltv33
 #Densidad
-hist(Grupo2$edad, breaks = "Sturges",  main = "Histogram de defunciones por Edad grupo 1", freq = FALSE)
-lines(density(Grupo2$edad), col="blue", lwd=3) # dibujamos la distribuci?n normal emp?rica con los datos que tenemos
-lines(density(Grupo2$edad, adjust=2), col="red", lwd=3, lty=2) #suavizar la curva con adjust entre 1 a 5
-abline(v=mean(Grupo2$edad), lwd=2, lty=3, col="darkblue") 
+hist(Grupo3$edad, breaks = "Sturges",  main = "Histogram de defunciones por Edad grupo 3", freq = FALSE)
+lines(density(Grupo3$edad), col="blue", lwd=3) # dibujamos la distribuci?n normal emp?rica con los datos que tenemos
+lines(density(Grupo3$edad, adjust=2), col="red", lwd=3, lty=2) #suavizar la curva con adjust entre 1 a 5
+abline(v=mean(Grupo3$edad), lwd=2, lty=3, col="darkblue") 
 
 #Ojiva (Distribucion de frecuencia acumulada)
-tablaFreq2
-plot(tablaFreq2$Main, cumsum(tablaFreq2$Frequency), main="Ojiva de frecuencia acumulada", 
+tablaFreq3
+plot(tablaFreq3$Main, cumsum(tablaFreq3$Frequency), main="Ojiva de frecuencia acumulada", 
      xlab = "Marca de clase", ylab = "Frecuencia absoluta")
-lines(tablaFreq2$Main,cumsum(tablaFreq2$Frequency), type="l")
+lines(tablaFreq3$Main,cumsum(tablaFreq3$Frequency), type="l")
 
 ##Diagrama de Cajas, se puede observar valores atípicos en relación a los recien nacidos
-boxplot(Grupo2$edad, horizontal = TRUE, main="Diagrama de Caja de Defunciones por
-        edad", xlab = "Edad", col="lightblue")
+boxplot(Grupo3$edad, horizontal = TRUE, main="Diagrama de Caja de Defunciones por
+        edad grupo 3", xlab = "Edad", col="lightblue")
 
 
 #Diagrama de Cajas(Edad por sexo)
-boxplot(Grupo2$edad ~ Grupo2$sexo, horizontal = T, main="Diagrama de Cajas Defunciones por edad
+boxplot(Grupo3$edad ~ Grupo3$sexo, horizontal = T, main="Diagrama de Cajas Defunciones por edad
         y sexo", xlab = "Edad", ylab = "Sexo", col=c("lightblue", "pink"))
 
 #Diagrama de Cajas(Cantones con mas defunciones)
-dataDauMil2 <- subset(Grupo2, cant_fall == "Milagro" | cant_fall == "Daule", )
-dataDauMil2
-boxplot(dataDauMil2$edad ~ dataDauMil2$cant_fall, horizontal = T, main="Diagrama de Cajas Defunciones
-        en Daule y Milagro Grupo 2", xlab = "Edad", ylab = "Canton", col=c("lightblue", "grey"))
+dataDauMil3 <- subset(Grupo3, cant_fall == "Milagro" | cant_fall == "Daule", )
+dataDauMil3
+boxplot(dataDauMil3$edad ~ dataDauMil3$cant_fall, horizontal = T, main="Diagrama de Cajas Defunciones
+        en Daule y Milagro Grupo 3", xlab = "Edad", ylab = "Canton", col=c("lightblue", "grey"))
 
-#dataDauMil2%>%  
-#  filter(cant_fall=="Milagro")-> Milagro  #A) Grupo de fallecidos en milagro
+#dataDauMil3%>%  
+#  filter(cant_fall=="Milagro")-> Milagro3  #A) Grupo de fallecidos en milagro
 
 #mean(Milagro$edad)
 
-#dataDauMil%>%  
-#  filter(cant_fall=="Daule")-> Daule  #A) Grupo de fallecidos en Daule
+#dataDauMil3%>%  
+#  filter(cant_fall=="Daule")-> Daule3  #A) Grupo de fallecidos en Daule
 
 #mean(Daule$edad)
 
 #Medidas de tendencia central y dispersión Edad
-mediaEdad2 <- mean(Grupo2$edad)
-mediaEdad2
-medianaEdad2 <- median(Grupo2$edad)
-medianaEdad2
-MediaEdadc2 <- mean(Grupo2$edad, trim=0.05) ##Eliminamos los recien nacidos fallecidos y viejos
-MediaEdadc2
-ModadEdad2 <- mlv(Grupo2$edad, method = "mfv")
-ModadEdad2    #La edad más frecuente de muertes en Guayas sin Guayaquil
-TablaGeneral32 = table(Grupo2$edad, Grupo2$sexo) #Ocurrencia de edad por Sexo
-TablaGeneral32
+mediaEdad3 <- mean(Grupo3$edad)
+mediaEdad3
+medianaEdad3 <- median(Grupo3$edad)
+medianaEdad3
+MediaEdadc3 <- mean(Grupo3$edad, trim=0.05) ##Eliminamos los recien nacidos fallecidos y viejos
+MediaEdadc3
+ModadEdad3 <- mlv(Grupo3$edad, method = "mfv")
+ModadEdad3    #La edad más frecuente de muertes en Guayas sin Guayaquil
+TablaGeneral33 = table(Grupo3$edad, Grupo3$sexo) #Ocurrencia de edad por Sexo
+TablaGeneral33
 
 #Varianza y desviacion estandar
-obs32=sort(Edad32)
-quantile(obs32)
-VarEdad2 <-var(obs32)
-DesvEdad2 <- sd(Edad32)
-sesgoEdad2 <- skewness(obs32)
+obs33=sort(Edad33)
+quantile(obs33)
+VarEdad3 <-var(obs33)
+DesvEdad3 <- sd(Edad33)
+sesgoEdad3 <- skewness(obs33)
 
 #Estandarizacion de la muestra
-Y32 = (Edad32 - mediaEdad2)/DesvEdad2
-Y32
+Y33 = (Edad33 - mediaEdad3)/DesvEdad3
+Y33
 #coeficiente de variación por edad
-cvEdad2 = (DesvEdad2/mediaEdad2)*100 
-cvEdad2
+cvEdad3 = (DesvEdad3/mediaEdad3)*100 
+cvEdad3
 
 #Poligono de frecuencias y freq acumulada y freq absoluta 
-plot(tablaReltv32, type="fp", main="Poligono de frecuencia G2", xlab = "Marca de clase" )
+plot(tablaReltv33, type="fp", main="Poligono de frecuencia G3", xlab = "Marca de clase" )
 
-plot(tablaReltv32, type="cfp", main="Poligono de frecuencia acumulada G2", xlab = "Marca de clase")
+plot(tablaReltv33, type="cfp", main="Poligono de frecuencia acumulada G3", xlab = "Marca de clase")
 
-plot(histEdad2$mids, histEdad2$counts, main="Poligono de frecuencia absoluta G2",
+plot(histEdad3$mids, histEdad3$counts, main="Poligono de frecuencia absoluta G2",
      xlab = "Marca de clase") 
-lines(histEdad2$mids,histEdad2$counts, type="l")
+lines(histEdad3$mids,histEdad3$counts, type="l")
 
 #Ojivas
 
-plot(histEdad2$mids,cumsum(histEdad2$counts), main="Ojiva de frecuencia absoluta G2", 
+plot(histEdad3$mids,cumsum(histEdad3$counts), main="Ojiva de frecuencia absoluta G3", 
      xlab = "Marca de clase")
-lines(histEdad2$mids,cumsum(histEdad2$counts), type="l")
+lines(histEdad3$mids,cumsum(histEdad3$counts), type="l")
 
-plot(histEdad2$mids,cumsum(histEdad2$counts)/sum(histEdad2$counts), main="Ojiva de frecuencia relativa G2", xlab = "Marca de clase", 
+plot(histEdad3$mids,cumsum(histEdad3$counts)/sum(histEdad3$counts), main="Ojiva de frecuencia relativa G2", xlab = "Marca de clase", 
      ylab = "Frecuencias relativas") 
-lines(histEdad2$mids,cumsum(histEdad2$counts)/sum(histEdad2$counts), type="l", )
+lines(histEdad3$mids,cumsum(histEdad3$counts)/sum(histEdad3$counts), type="l", )
 
 #Medidas de tendencia central y dispersión Edad, sexo y canton
 
 #Promedios de muerte por edad y sexo
-tabMeanSexEda2 = aggregate(x = Grupo2$edad,         
-                           by = list(Grupo2$sexo),
+tabMeanSexEda3 = aggregate(x = Grupo3$edad,         
+                           by = list(Grupo3$sexo),
                            FUN = mean)
-tabMeanSexEda2
+tabMeanSexEda3
 
-mediaEdaSexF2 <- (tabMeanSexEda2 %>%  
+mediaEdaSexF3 <- (tabMeanSexEda3 %>%  
                     filter(Group.1=="Mujer"))$x
 
-mediaEdaSexF2 #Media de muertes femeninas
-mediaEdaSexM2 <-(tabMeanSexEda2 %>%  
+mediaEdaSexF3 #Media de muertes femeninas
+mediaEdaSexM3 <-(tabMeanSexEda3 %>%  
                    filter(Group.1=="Hombre"))$x
-mediaEdaSexM2 #Media de muertes masculinas
-MediaEdaSexc2 = aggregate(x = Grupo2$edad,         
-                          by = list(Grupo2$sexo),
+mediaEdaSexM3 #Media de muertes masculinas
+MediaEdaSexc3 = aggregate(x = Grupo3$edad,         
+                          by = list(Grupo3$sexo),
                           FUN = mean, trim=0.1)
-MediaEdaSexcF2 <-(MediaEdaSexc2 %>%  
+MediaEdaSexcF3 <-(MediaEdaSexc3 %>%  
                     filter(Group.1=="Mujer"))$x ##Eliminamos los recien nacidos fallecidos y viejos
-MediaEdaSexcF2
-MediaEdaSexcM2 <-(MediaEdaSexc2 %>%  
+MediaEdaSexcF3
+MediaEdaSexcM3 <-(MediaEdaSexc3 %>%  
                     filter(Group.1=="Hombre"))$x
-MediaEdaSexcM2
+MediaEdaSexcM3
 #La edad más frecuente de muertes Femeninas en Guayas sin Guayaquil
-v_logico = tablaEdaSexF2==max(tablaEdaSexF2) #Variable temporal
+v_logico = tablaEdaSexF3==max(tablaEdaSexF3) #Variable temporal
 which(v_logico==TRUE)
-ModadEdaSexF2 <- 77
-ModadEdaSexF2
+ModadEdaSexF3 <- 81
+ModadEdaSexF3
 #La edad más frecuente de muertes Masculinas en Guayas sin Guayaquil
-v_logico = tablaEdaSexM2==max(tablaEdaSexM2) #Variable temporal
-ModadEdaSexM2 <- 77
-ModadEdaSexM2
+v_logico = tablaEdaSexM3==max(tablaEdaSexM3) #Variable temporal
+which(v_logico==TRUE)
+ModadEdaSexM3 <- 81
+ModadEdaSexM3
 
 
 
